@@ -1,15 +1,16 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 
 import Card from '../UI/Card';
 import './IngredientForm.css';
 
 const IngredientForm = React.memo(props => {
+  const [enteredTitle, setEnteredTitle] = useState('');
+  const [enteredAmount, setEnteredAmount] = useState('');
+
   const submitHandler = event => {
     event.preventDefault();
-    // ...
+    props.onAddIngredient({ title: enteredTitle, amount: enteredAmount });
   };
-
-  const inputState = useState({title : '' , amount : ''})
 
   return (
     <section className="ingredient-form">
@@ -17,31 +18,25 @@ const IngredientForm = React.memo(props => {
         <form onSubmit={submitHandler}>
           <div className="form-control">
             <label htmlFor="title">Name</label>
-            <input 
-             type="text" 
-             id="title" 
-             value={inputState[0].title}
-             onChange={event => {
-              const titleChange = event.target.value;
-              inputState[1](prevInputState => ({
-                title : titleChange,
-                amount : prevInputState.amount
-              }))
-            }} />
+            <input
+              type="text"
+              id="title"
+              value={enteredTitle}
+              onChange={event => {
+                setEnteredTitle(event.target.value);
+              }}
+            />
           </div>
           <div className="form-control">
             <label htmlFor="amount">Amount</label>
-            <input 
-            type="number" 
-            id="amount"
-            value={inputState[0].amount}
-             onChange={event => {
-              const amountChange = event.target.value;
-              inputState[1](prevInputState => ({
-                title : prevInputState.title,
-                amount : amountChange
-              }))
-            }} />
+            <input
+              type="number"
+              id="amount"
+              value={enteredAmount}
+              onChange={event => {
+                setEnteredAmount(event.target.value);
+              }}
+            />
           </div>
           <div className="ingredient-form__actions">
             <button type="submit">Add Ingredient</button>
